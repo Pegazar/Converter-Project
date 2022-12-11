@@ -8,6 +8,7 @@ let inputtwo = document.getElementById("inputtwo");
 let btnoneText = "RUB";
 let btntwoText = "USD";
 
+
 btns.forEach(item => {
     item.addEventListener("click", function () {
         btns.forEach(btn => btn.classList.remove("active"));
@@ -18,7 +19,7 @@ btns.forEach(item => {
             .then(data => {
                 inputVal = Number(inputone.value);
                 rates = data.rates[btntwoText];
-                inputtwo.value = (inputVal * rates).toFixed(2);
+                inputtwo.value = (inputVal * rates).toFixed(2).replace(".0000", " ");
                 one.innerText = `1 ${btnoneText} = ${data.rates[btntwoText]} ${btntwoText}`;
             })
         fetch(`https://api.exchangerate.host/latest?base=${btntwoText}&symbols=${btnoneText}`)
@@ -31,7 +32,7 @@ btns.forEach(item => {
 
 inputone.addEventListener("keyup", function() {
     inputVal = Number(inputone.value);
-    inputtwo.value = (inputVal * rates).toFixed(2);
+    inputtwo.value = (inputVal * rates).toFixed(2).replace(".0000", " ");
 })
 
 btnsTwo.forEach(item => {
@@ -44,7 +45,7 @@ btnsTwo.forEach(item => {
             .then(data => {
                 inputVal = Number(inputone.value);
                 rates = data.rates[btntwoText];
-                inputtwo.value = (inputVal * rates).toFixed(2);
+                inputtwo.value = (inputVal * rates).toFixed(2).replace(".0000", " ");
                 one.innerText = `1 ${btnoneText} = ${data.rates[btntwoText]} ${btntwoText}`;
             })
         fetch(`https://api.exchangerate.host/latest?base=${btntwoText}&symbols=${btnoneText}`)
@@ -55,10 +56,13 @@ btnsTwo.forEach(item => {
     })
 })
 
-inputone.addEventListener("keyup", function() {
-    inputVal = Number(inputone.value);
-    inputtwo.value = (inputVal * rates).toFixed(2);
-})
+fetch(`https://api.exchangerate.host/latest?base=${btnoneText}&symbols=${btntwoText}`)
+            .then(res => res.json())
+            .then(data => {
+                inputVal = Number(inputone.value);
+                rates = data.rates[btntwoText];
+                inputtwo.value = (inputVal * rates).toFixed(2).replace(".0000", " ");
+            })
 
 // Navbar Area
 const hamburger = document.querySelector(".burger-menu");
